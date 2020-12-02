@@ -2,53 +2,51 @@
 from pycocotools.coco import COCO
 
 import sys
+import importlib
+from functions import *
 
 import matplotlib.pyplot as plt
 import numpy as np
 import os
 import skimage.io as io
 
+# Start met printen naar de console en dingen vragen en dergelijke
+br()
 
-print("De COCO 2017 dataset wordt automatisch gedownload, de bosch dataset moet handmatig gedownload worden")
-answer = input('Wil je de COCO dataset of de yolov3 bosch dataset gebruiken voor het trainen? (C/Y)')
 
+
+print("De COCO 2017 dataset kan automatisch worden gedownload, de bosch dataset zal vooraf getraind worden en de weights te verkrijgen zijn")
+br()
+
+answer = input('Wil je de AI trainen op de bosch dataset (mey yolov3), de AI testen op COCO, of de AI testen op andere dingen? (C/Y/A) ')
+br()
 
 if answer == 'C':
     # Open het COCO script
-    print('a')
+    importlib.import_module("COCO.py")
 
 
 elif answer == 'Y':
-    # Functie om te vragen of dit de eerste keer is dat het programma wordt opgestart, voor nu nog niet echt gebruikt!
+    
+    importlib.import_module("yolov3.py")
 
-    # bool recursed, String initString
-    def initProgramFirstCheck():
-        checked = False
-        initBool = False # Standaard nog niet geopend
+elif answer == 'A':
 
-        while not checked:
-
-            initString = input("Is dit de eerste keer dat je het yolov3 programma opent? (Y/N)")
-            
-            if initString == "Y":
-                initBool = True
-
-            elif initString == "N":
-                initBool = False
-                
-            else:
-                print("Verkeerde input, start opnieuw...")
-                continue
-        
-            checked = True
-        
-        return initBool
-
-
-    x = initProgramFirstCheck()
-    print(x)
+    print("Deze functie is momenteel in ontwikkeling...")
+    sys.exit()
 
 
 else:
-    print("Verkeerde input gekregen, probeer het alstublieft opnieuw!")
-    sys.exit()
+    answerRestart = input("Verkeerde input gekregen, wil je het opnieuw proberen? (Y/N) ")
+    br()
+
+    if answerRestart == 'Y':
+        importlib.import_module("TrafficDetection.py")
+
+    elif answerRestart == 'N':
+        print("Afsluiten...")
+        sys.exit()
+
+    else:
+        print("Verkeerd antwoord, afsluiten...")
+        sys.exit()

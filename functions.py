@@ -1,0 +1,2 @@
+def br():
+    print('\n')
