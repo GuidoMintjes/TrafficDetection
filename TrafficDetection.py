@@ -10,6 +10,10 @@ import numpy as np
 import os
 import skimage.io as io
 
+# Eigen python packages
+import YOLOv3
+import COCO
+
 # Start met printen naar de console en dingen vragen en dergelijke
 br()
 
@@ -23,12 +27,12 @@ br()
 
 if answer == 'C':
     # Open het COCO script
-    importlib.import_module("COCO.py")
+    COCO.__main__()
 
 
 elif answer == 'Y':
-    
-    importlib.import_module("yolov3.py")
+    # Open het YOLO script
+    YOLOv3.__main__()
 
 elif answer == 'A':
 

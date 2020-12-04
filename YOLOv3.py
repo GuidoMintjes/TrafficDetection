@@ -1,9 +1,6 @@
 # imports
 
 
-
-
-
 # Functie om te vragen of dit de eerste keer is dat het programma wordt opgestart, voor nu nog niet echt gebruikt!
 
 # bool recursed, String initString
@@ -28,3 +25,8 @@ def initProgramFirstCheck():
         checked = True
         
     return initBool
+
+
+def __main__():
+    antwoord = initProgramFirstCheck()
+    print(antwoord)

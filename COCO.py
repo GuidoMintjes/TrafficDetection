@@ -29,40 +29,48 @@ def loadNShowIm(img, catIds):
     
     imDecoded = cv2.imdecode(np.frombuffer(image_bytes.read(), np.uint8), 1)
     
+    cv2.namedWindow("Plaatje", cv2.WINDOW_FREERATIO)
 
-    cv2.imshow('Plaatje', imDecoded)
-    cv2.waitKey()
+    height, width, channels = imDecoded.shape
+    
+    # Even Debug
+    print(height, width, channels)
 
-
-
-
-# Maak nog een check voor eerste keer!
-
-datadir = '..'
-datatype = 'val2017'
-annFile = '{}/annotations/instances_{}.json'.format(datadir, datatype)
-
-
-coco = COCO(annFile)
-
-
-categories = coco.loadCats(coco.getCatIds())
-nms = [category['name'] for category in categories]
-nms = set([category['supercategory'] for category in categories])
-
-
-# Bij de categorie traffic light foto's vinden
-print("Alle foto's vinden met stoplichten...")
-catIds = coco.getCatIds(catNms=['traffic light'])
-imgIds = coco.getImgIds(catIds = catIds)
+    imS = cv2.resize(imDecoded, (width, height))
+    cv2.imshow("Plaatje", imS)
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
 
 
 
-# Een simpele loop
-for i in range(0, 12):
+def __main__():
+    # Maak nog een check voor eerste keer!
 
-    print("Laad een willekeurig plaatje...")
-    img = coco.loadImgs(imgIds[np.random.randint(0,len(imgIds))])[0]
+    datadir = '..'
+    datatype = 'val2017'
+    annFile = '{}/annotations/instances_{}.json'.format(datadir, datatype)
 
-    print("Laat het willekeurige plaatje zien...")
-    loadNShowIm(img, catIds)
+
+    coco = COCO(annFile)
+
+
+    categories = coco.loadCats(coco.getCatIds())
+    nms = [category['name'] for category in categories]
+    nms = set([category['supercategory'] for category in categories])
+
+
+    # Bij de categorie traffic light foto's vinden
+    print("Alle foto's vinden met stoplichten...")
+    catIds = coco.getCatIds(catNms=['traffic light'])
+    imgIds = coco.getImgIds(catIds = catIds)
+
+
+
+    # Een simpele loop
+    for i in range(0, 12):
+
+        print("Laad een willekeurig plaatje...")
+        img = coco.loadImgs(imgIds[np.random.randint(0,len(imgIds))])[0]  # De error die die hier geeft is een fout in de linter zelf, er is geen error
+
+        print("Laat het willekeurige plaatje zien...")
+        loadNShowIm(img, catIds)
