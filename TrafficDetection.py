@@ -22,7 +22,7 @@ br()
 print("De COCO 2017 dataset kan automatisch worden gedownload, de bosch dataset zal vooraf getraind worden en de weights te verkrijgen zijn")
 br()
 
-answer = input('Wil je de AI trainen op de bosch dataset (mey yolov3), de AI testen op COCO, of de AI testen op andere dingen? (C/Y/A) ')
+answer = input('Wil je de AI trainen op de bosch dataset (met yolov3), de AI testen op COCO, of de AI testen op andere dingen? (C/Y/A) ')
 br()
 
 if answer == 'C':

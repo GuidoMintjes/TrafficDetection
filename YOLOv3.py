@@ -1,7 +1,20 @@
 # imports
+import requests
+
+import tensorflow as tf
+from tensorflow import keras
+
+import numpy as np
+
+from cv2 import cv2
+
+from functions import *
 
 
-# Functie om te vragen of dit de eerste keer is dat het programma wordt opgestart, voor nu nog niet echt gebruikt!
+# Een paar standaard variabelen opstellen
+preTrainedURL = 'https://pjreddie.com/media/files/yolov3.weights'
+
+weightsFolder = 'weights'
 
 # bool recursed, String initString
 def initProgramFirstCheck():
@@ -11,8 +24,10 @@ def initProgramFirstCheck():
     while not checked:
 
         initString = input("Is dit de eerste keer dat je het yolov3 programma opent? (Y/N)")
-            
+        br()
+
         if initString == "Y":
+
             initBool = True
 
         elif initString == "N":
@@ -20,6 +35,7 @@ def initProgramFirstCheck():
                 
         else:
             print("Verkeerde input, start opnieuw...")
+            br()
             continue
         
         checked = True
@@ -27,6 +43,22 @@ def initProgramFirstCheck():
     return initBool
 
 
+
+def start():
+    print("a")
+
+
+
+
 def __main__():
     antwoord = initProgramFirstCheck()
-    print(antwoord)
+    
+    if antwoord:
+        download(preTrainedURL, weightsFolder)
+        print("Gedownload!")
+    
+    else:
+        #Hoeft niet te downloade
+        print('b')
+
+    start()
