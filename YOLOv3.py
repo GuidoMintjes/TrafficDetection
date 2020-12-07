@@ -23,7 +23,7 @@ def initProgramFirstCheck():
 
     while not checked:
 
-        initString = input("Is dit de eerste keer dat je het yolov3 programma opent? (Y/N)")
+        initString = input("Is dit de eerste keer dat je het yolov3 programma opent? (Y/N) ")
         br()
 
         if initString == "Y":
@@ -54,7 +54,7 @@ def __main__():
     antwoord = initProgramFirstCheck()
     
     if antwoord:
-        download(preTrainedURL, weightsFolder)
+        download(preTrainedURL, weightsFolder, (1024 * 8))
         print("Gedownload!")
     
     else:

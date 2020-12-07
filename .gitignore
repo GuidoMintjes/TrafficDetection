@@ -2,3 +2,4 @@
 .ssh/
 .ipynb_checkpoints/
 __pycache__/
+weights/
