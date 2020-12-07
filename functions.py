@@ -1,4 +1,4 @@
-import os, requests, sys
+import os, requests, sys, time, datetime
 
 def br():
     print('\n')
@@ -22,8 +22,8 @@ def download(url: str, dest_folder: str, chunk_size: int):
 
     # Controleer of de request is geaccepteerd
     if request.ok:
-        print("Bestand downloaden naar ", os.path.abspath(bestandsPad))
-
+        print("Bestand downloaden naar ", os.path.abspath(bestandsPad), " === dit kan even duren...")
+        beginTijd = time.time()
         with open(bestandsPad, 'wb') as bestand:
             
             total_length = int(request.headers.get('content-length'))
@@ -49,7 +49,9 @@ def download(url: str, dest_folder: str, chunk_size: int):
                     sys.stdout.write("\r[%s%s] chunk %s van de %s chunks..." % ('=' * done, ' ' * (50 - done), str(chunkNo), str(totaleChunks)))
                     sys.stdout.flush()
 
-        print("Download is gelukt: status code {}\n{}".format(request.status_code, request.text))
+        eindTijd = time.time()
+        downloadDuur = datetime.timedelta(seconds=(eindTijd - beginTijd))
+        print("Download is gelukt! Het duurde {}!".format(str(downloadDuur)))
     
     else:
         print("Download niet gelukt: status code {}\n{}".format(request.status_code, request.text))

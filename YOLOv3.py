@@ -1,4 +1,5 @@
 # imports
+import os
 import requests
 
 import tensorflow as tf
@@ -22,7 +23,7 @@ def initProgramFirstCheck():
     initBool = False # Standaard nog niet geopend
 
     while not checked:
-
+        # Vragen of het de eerste keer is van het programma en de checks ervoor snap je wel
         initString = input("Is dit de eerste keer dat je het yolov3 programma opent? (Y/N) ")
         br()
 
@@ -43,22 +44,36 @@ def initProgramFirstCheck():
     return initBool
 
 
+# Downloaden kan er wat lastig uit zien, gebruikt het functions.py script 
+def downloadCheck():
+    bestandsPad = os.path.join(weightsFolder, "yolov3.weights")
+
+    if os.path.exists(bestandsPad):
+        lokaleGrootte = os.stat(bestandsPad).st_size
+        externeGrootte = requests.get(preTrainedURL, stream=True).headers['content-length']
+
+        if lokaleGrootte == externeGrootte:
+            print("Het lokale weights bestand klopt! Ga verder...")
+
+        else:
+            print("Het lokale bestand klopt niet helemaal, hij wordt opnieuw gedownload...")
+            download(preTrainedURL, weightsFolder, (1024 * 16))
+
+
+    else:
+        print('Programma is voor de eerste keer gestart, download wordt gestart...')
+        download(preTrainedURL, weightsFolder, (1024 * 16))
+
+
 
 def start():
-    print("a")
+    print("")
 
 
 
 
 def __main__():
-    antwoord = initProgramFirstCheck()
     
-    if antwoord:
-        download(preTrainedURL, weightsFolder, (1024 * 8))
-        print("Gedownload!")
-    
-    else:
-        #Hoeft niet te downloade
-        print('b')
+    downloadCheck()
 
     start()
