@@ -65,9 +65,12 @@ def downloadCheck():
         download(preTrainedURL, weightsFolder, (1024 * 16))
 
 
-
+# De eigenlijk start functie dat wordt gebruikt na de init funcs/defs
 def start():
-    print("")
+    
+    
+
+    return
 
 
 
