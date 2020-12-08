@@ -1,7 +1,9 @@
 import os, requests, sys, time, datetime
 
+
 def br():
     print('\n')
+
 
 def download(url: str, dest_folder: str, chunk_size: int):
 
@@ -28,7 +30,7 @@ def download(url: str, dest_folder: str, chunk_size: int):
             
             total_length = int(request.headers.get('content-length'))
             totaleChunks = round(total_length / chunk_size)
-            print(totaleChunks)
+            
             dl = 0
 
             chunkNo = 0
