@@ -1,5 +1,5 @@
 # Import de coco tools voor de coco dataset ==> (cocodataset.org)
-from pycocotools.coco import COCO
+
 
 import sys
 import importlib

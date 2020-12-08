@@ -52,6 +52,7 @@ def download(url: str, dest_folder: str, chunk_size: int):
         eindTijd = time.time()
         downloadDuur = datetime.timedelta(seconds=(eindTijd - beginTijd))
         print("Download is gelukt! Het duurde {}!".format(str(downloadDuur)))
+        br()
     
     else:
         print("Download niet gelukt: status code {}\n{}".format(request.status_code, request.text))
