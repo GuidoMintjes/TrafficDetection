@@ -46,7 +46,7 @@ def _conv_block(inp, convs, skip=True):
 
 def make_yolov3_model():
 
-	input_image = Input(shape=(None, None, 3))
+	input_image = Input(shape = (None, None, 3))
 
 	# Layer  0 => 4
 	x = _conv_block(input_image, [{'filter': 32, 'kernel': 3, 'stride': 1, 'bnorm': True, 'leaky': True, 'layer_idx': 0},
@@ -154,7 +154,7 @@ class WeightReader:
 			minor,	= struct.unpack('i', w_f.read(4))
 			revision, = struct.unpack('i', w_f.read(4))
 
-			if (major*10 + minor) >= 2 and major < 1000 and minor < 1000:
+			if (major * 10 + minor) >= 2 and major < 1000 and minor < 1000:
 
 				w_f.read(8)
 
@@ -227,15 +227,3 @@ class WeightReader:
 	def reset(self):
 
 		self.offset = 0
-
-
-model = make_yolov3_model()
-
-
-weight_reader = WeightReader(r"weights/yolov3.weights")
-
-
-weight_reader.load_weights(model)
-
-
-model.save('model.h5')

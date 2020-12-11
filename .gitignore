@@ -5,3 +5,4 @@ __pycache__/
 weights/
 keras-yolo3/
 model.h5
+tests/
