@@ -4,6 +4,7 @@ import requests
 
 import tensorflow as tf
 from tensorflow import keras
+from tensorflow.keras.models import load_model
 
 import numpy as np
 
@@ -18,7 +19,14 @@ import DetectionFunctions as dF
 preTrainedURL = 'https://pjreddie.com/media/files/yolov3.weights'
 
 weightsFolder = 'weights'
-modelsFolder = 'modela'
+modelsFolder = 'models'
+
+# Voor de zekerheid even een leeg model variabele maken
+model = None
+
+
+zebraImageFile = 'zebra.jpg'
+
 
 # bool recursed, String initString
 def initProgramFirstCheck():
@@ -53,11 +61,13 @@ def downloadCheck():
     bestandsPad = os.path.join(weightsFolder, "yolov3.weights")
 
     if os.path.exists(bestandsPad):
-        lokaleGrootte = os.stat(bestandsPad).st_size
-        externeGrootte = requests.get(preTrainedURL, stream=True).headers['content-length']
+        lokaleGrootte = int(os.stat(bestandsPad).st_size)
+        externeGrootte = int(requests.get(preTrainedURL, stream=True).headers['content-length'])
 
+        
         if lokaleGrootte == externeGrootte:
             print("Het lokale weights bestand klopt! Ga verder...")
+            f.br()
 
         else:
             print("Het lokale bestand klopt niet helemaal, hij wordt opnieuw gedownload...")
@@ -70,6 +80,8 @@ def downloadCheck():
 
 
 def yoloModelCheck():
+
+    f.folderCheck(modelsFolder) # Check of de folder voor het model al wel bestaat
 
     bestandsPad = os.path.join(modelsFolder, "model.h5")
 
@@ -88,7 +100,7 @@ def yoloModelCheck():
         weight_reader.load_weights(model)
 
 
-        model.save('model.h5')
+        model.save(modelsFolder + '\\' + 'model.h5')
         
         return
 
@@ -96,7 +108,8 @@ def yoloModelCheck():
 # De eigenlijk start functie dat wordt gebruikt na de init funcs/defs
 def start():
     
-    
+    # Load yolov3 model
+    model = load_model(modelsFolder + '\\' + 'model.h5')
 
     return
 
@@ -107,4 +120,9 @@ def __main__():
     
     downloadCheck()
     yoloModelCheck()
+    
+    f.br()
+    print("De lokale weights en model bestanden kloppen, er kan verder gegaan worden met het herkennen...")
+    f.br()
+
     start()

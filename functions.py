@@ -59,3 +59,13 @@ def download(url: str, dest_folder: str, chunk_size: int):
     else:
         print("Download niet gelukt: status code {}\n{}".format(request.status_code, request.text))
         print("Probeer het bestand zelf te downloaden via {} en in de map {} te zetten!".format(url, dest_folder))
+
+
+def folderCheck(folder: str):
+
+    if not os.path.exists(folder):
+        os.makedirs(folder)  # Maak de map aan als die nog niet bestaat
+
+
+def loadLocalImage(imageFile: str):
+    print(imageFile)

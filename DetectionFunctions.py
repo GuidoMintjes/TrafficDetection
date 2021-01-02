@@ -2,17 +2,18 @@
 # Oorspronkelijk vanuit https://github.com/experiencor/keras-yolo3
 # Copyright gaat naar desbetreffende eigenaren
 
+# Dit zijn dus functies van YoloV3 zelf, gekopieerd hier naar toe
 
 import struct
 import numpy as np
-from keras.layers import Conv2D
-from keras.layers import Input
-from keras.layers import BatchNormalization
-from keras.layers import LeakyReLU
-from keras.layers import ZeroPadding2D
-from keras.layers import UpSampling2D
-from keras.layers.merge import add, concatenate
-from keras.models import Model
+from tensorflow.keras.layers import Conv2D
+from tensorflow.keras.layers import Input
+from tensorflow.keras.layers import BatchNormalization
+from tensorflow.keras.layers import LeakyReLU
+from tensorflow.keras.layers import ZeroPadding2D
+from tensorflow.keras.layers import UpSampling2D
+from tensorflow.keras.layers import add, concatenate
+from tensorflow.keras.models import Model
 
 
 def _conv_block(inp, convs, skip=True):

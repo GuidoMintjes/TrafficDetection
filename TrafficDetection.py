@@ -13,7 +13,8 @@ import skimage.io as io
 # Eigen python packages
 import YOLOv3
 import COCO
-import TrafficDetection
+
+# import TrafficDetection
 
 # Start met printen naar de console en dingen vragen en dergelijke
 br()
@@ -46,7 +47,8 @@ def __main__():
         br()
 
         if answerRestart == 'Y':
-            TrafficDetection.__main__()
+            # TrafficDetection.__main__()
+            print('a')
 
         elif answerRestart == 'N':
             print("Afsluiten...")
