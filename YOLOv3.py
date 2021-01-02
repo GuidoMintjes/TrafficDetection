@@ -5,6 +5,7 @@ import requests
 import tensorflow as tf
 from tensorflow import keras
 from tensorflow.keras.models import load_model
+from tensorflow.keras.preprocessing.image import img_to_array, load_img
 
 import numpy as np
 
@@ -108,8 +109,14 @@ def yoloModelCheck():
 # De eigenlijk start functie dat wordt gebruikt na de init funcs/defs
 def start():
     
+    f.br()
+    f.br()
+
     # Load yolov3 model
     model = load_model(modelsFolder + '\\' + 'model.h5')
+
+    image, image_w, image_h = f.load_image_pixels(zebraImageFile, (416, 416))
+    
 
     return
 

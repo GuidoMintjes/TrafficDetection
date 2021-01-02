@@ -1,5 +1,5 @@
 import os, requests, sys, time, datetime
-from tensorflow.keras.preprocessing.image import load_img
+from tensorflow.keras.preprocessing.image import load_img, img_to_array
 
 
 def br():
@@ -68,6 +68,16 @@ def folderCheck(folder: str):
         os.makedirs(folder)  # Maak de map aan als die nog niet bestaat
 
 
-def loadLocalImage(imageFile: str):
-    
-    load_img(imageFile)
+def load_image_pixels(filename, shape):
+    imageOrig = load_img(filename)
+    width, height = imageOrig.size
+
+
+    image = load_img(filename, target_size=shape) # Zebra plaatje als non copyright voorbeeld
+    image = img_to_array(image) # Verander het plaatje in een numpy array
+
+
+    image = image.astype('float32') # Scale de waardes van het plaatje naar tussen de 0 en de 1
+    image /= 255.0                  # ^^^
+
+    return image, width, height
