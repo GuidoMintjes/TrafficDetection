@@ -8,12 +8,15 @@ from tensorflow.keras.models import load_model
 from tensorflow.keras.preprocessing.image import img_to_array, load_img
 
 import numpy as np
+from numpy import expand_dims
 
 from cv2 import cv2
 
 import functions as f
 
 import DetectionFunctions as dF
+
+from cv2 import cv2
 
 
 # Een paar standaard variabelen opstellen
@@ -27,7 +30,7 @@ model = None
 
 
 zebraImageFile = 'zebra.jpg'
-
+input_w, input_h = (416, 416)
 
 # bool recursed, String initString
 def initProgramFirstCheck():
@@ -107,7 +110,7 @@ def yoloModelCheck():
 
 
 # De eigenlijk start functie dat wordt gebruikt na de init funcs/defs
-def start():
+def getImageNStuff():
     
     f.br()
     f.br()
@@ -115,12 +118,24 @@ def start():
     # Load yolov3 model
     model = load_model(modelsFolder + '\\' + 'model.h5')
 
-    image, image_w, image_h = f.load_image_pixels(zebraImageFile, (416, 416))
+    image, image_w, image_h = f.load_image_pixels(zebraImageFile, (input_w, input_h))
+
+    image = expand_dims(image, 0) # De keras code verwacht 4 dimensies, 1 plaatje heeft 3 dimensies (dat kan je zien door print(image) te doen)
+                                  # als je dat wilt in de regel hierboven.
+                                  # De '0' in de expand_dims betekent dat er een nulde, oftwel een eerste (omdat arrays beginnen bij nul),
+                                  # dimensie wordt toegevoegd --> de nulde, eerste en tweede dimensies van het plaatje schuiven op naar de
+                                  # eerste, tweede en derde dimensie
+                                  # Deze nieuwe nulde dimensie staat dan voor het aantal plaatjes, bij ons nu natuurlijk maar 1, maar keras
+                                  # verwacht er vaak al meerdere tegelijk bij het model.predict stukje 
     
+#----------------------------------------------------------------------------------------#
 
-    return
+    # Maak de voorspelling met het model
+    yhat = model.predict(image)
 
+    print([a.shape for a in yhat]) # Laat de dimensies zien van de array
 
+    return image, image_w, image_h, model
 
 
 def __main__():
@@ -132,4 +147,6 @@ def __main__():
     print("De lokale weights en model bestanden kloppen, er kan verder gegaan worden met het herkennen...")
     f.br()
 
-    start()
+    f.br()
+    print("Het (voorbeeld) plaatje (of de (voorbeeld) video) pakken en herkennen met het model!")
+    getImageNStuff()

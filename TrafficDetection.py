@@ -1,13 +1,15 @@
 # Import de coco tools voor de coco dataset ==> (cocodataset.org)
 
 
+import os
 import sys
 import importlib
+from pathlib import Path
+
 from functions import *
 
 import matplotlib.pyplot as plt
 import numpy as np
-import os
 import skimage.io as io
 
 # Eigen python packages
@@ -48,7 +50,8 @@ def __main__():
 
         if answerRestart == 'Y':
             # TrafficDetection.__main__()
-            print('a')
+            __main__()
+            return
 
         elif answerRestart == 'N':
             print("Afsluiten...")
@@ -57,7 +60,6 @@ def __main__():
         else:
             print("Verkeerd antwoord, afsluiten...")
             sys.exit()
-
 
 
 # De main functie ook daadwerkelijk opstarten...
