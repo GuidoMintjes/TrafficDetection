@@ -1,4 +1,5 @@
 import os, requests, sys, time, datetime
+from tensorflow.keras.preprocessing.image import load_img
 
 
 def br():
@@ -68,4 +69,5 @@ def folderCheck(folder: str):
 
 
 def loadLocalImage(imageFile: str):
-    print(imageFile)
+    
+    load_img(imageFile)
