@@ -28,6 +28,8 @@ modelsFolder = 'models'
 # Voor de zekerheid even een leeg model variabele maken
 model = None
 
+propability = 0.6
+anchors = [[116,90, 156,198, 373,326], [30,61, 62,45, 59,119], [10,13, 16,30, 33,23]]
 
 zebraImageFile = 'zebra.jpg'
 input_w, input_h = (416, 416)
@@ -120,6 +122,13 @@ def getImageNStuff():
 
     image, image_w, image_h = f.load_image_pixels(zebraImageFile, (input_w, input_h))
 
+
+
+    cv2.imshow("abc", image)
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
+
+
     image = expand_dims(image, 0) # De keras code verwacht 4 dimensies, 1 plaatje heeft 3 dimensies (dat kan je zien door print(image) te doen)
                                   # als je dat wilt in de regel hierboven.
                                   # De '0' in de expand_dims betekent dat er een nulde, oftwel een eerste (omdat arrays beginnen bij nul),
@@ -127,15 +136,25 @@ def getImageNStuff():
                                   # eerste, tweede en derde dimensie
                                   # Deze nieuwe nulde dimensie staat dan voor het aantal plaatjes, bij ons nu natuurlijk maar 1, maar keras
                                   # verwacht er vaak al meerdere tegelijk bij het model.predict stukje 
-    
+
+
+
 #----------------------------------------------------------------------------------------#
 
     # Maak de voorspelling met het model
     yhat = model.predict(image)
 
-    print([a.shape for a in yhat]) # Laat de dimensies zien van de array
+    # print([a.shape for a in yhat]) # Laat de dimensies zien van de array
 
-    return image, image_w, image_h, model
+    return image, image_w, image_h, model, yhat
+
+
+def decodeFrame(image, image_w, image_h, model, yhat):
+    
+    boxes = list()
+    for i in range(len(yhat)):
+        # Decodeer de bounding boxes (de rechthoekjes om het herkende heen)
+        boxes += dF.decode_netout(yhat[i][0], anchors, propability, input_h, input_w)
 
 
 def __main__():
@@ -149,4 +168,6 @@ def __main__():
 
     f.br()
     print("Het (voorbeeld) plaatje (of de (voorbeeld) video) pakken en herkennen met het model!")
-    getImageNStuff()
+    image, image_w, image_h, model, yhat = getImageNStuff()
+
+    decodeFrame(image, image_w, image_h, model, yhat)

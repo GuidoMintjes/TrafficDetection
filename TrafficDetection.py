@@ -6,7 +6,7 @@ import sys
 import importlib
 from pathlib import Path
 
-from functions import *
+import functions as f
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -19,15 +19,15 @@ import COCO
 # import TrafficDetection
 
 # Start met printen naar de console en dingen vragen en dergelijke
-br()
+f.br()
 
 
 def __main__():
     print("De COCO 2017 dataset kan automatisch worden gedownload, de bosch dataset zal vooraf getraind worden en de weights te verkrijgen zijn")
-    br()
+    f.br()
 
     answer = input('Wil je de AI trainen op de bosch dataset (met yolov3), de AI testen op COCO, of de AI testen op andere dingen? (C/Y/A) ')
-    br()
+    f.br()
 
     if answer == 'C':
         # Open het COCO script
@@ -46,7 +46,7 @@ def __main__():
 
     else:
         answerRestart = input("Verkeerde input gekregen, wil je het opnieuw proberen? (Y/N) ")
-        br()
+        f.br()
 
         if answerRestart == 'Y':
             # TrafficDetection.__main__()
