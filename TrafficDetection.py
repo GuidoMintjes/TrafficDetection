@@ -24,22 +24,22 @@ f.br()
 
 
 def __main__():
-    print("De COCO 2017 dataset kan automatisch worden gedownload, de bosch dataset zal vooraf getraind worden en de weights te verkrijgen zijn")
+    print("Voordat de AI in gebruik kan worden genomen zal er automatisch een getraind model gedownload worden...")
     f.br()
 
-    answer = input('Wil je de AI trainen op de bosch dataset (met yolov3), de AI testen op COCO, of de AI testen op andere dingen? (C/Y/A) ')
+    answer = input('Wil je de AI op een (P)laatje testen, of op een (V)ideo? (P/V) ')
     f.br()
 
-    if answer == 'C':
-        # Open het COCO script
-        COCO.__main__()
+    #if answer == 'C':
+    #    # Open het COCO script
+    #    COCO.__main__()
 
 
-    elif answer == 'Y':
+    if answer == 'P':
         # Open het YOLO script
         YOLOv3.__main__()
 
-    elif answer == 'A':
+    elif answer == 'V':
 
         print("Deze functie is momenteel in ontwikkeling...")
         sys.exit()
