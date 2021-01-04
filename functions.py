@@ -1,6 +1,16 @@
-import os, requests, sys, time, datetime
-from tensorflow.keras.preprocessing.image import load_img, img_to_array
+import os
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 
+import requests, sys, time, datetime
+from tensorflow.keras.preprocessing.image import load_img, img_to_array
+from matplotlib import pyplot
+from matplotlib.patches import Rectangle
+
+import random
+
+from cv2 import cv2
+
+colorG = 255
 
 def br():
     print('\n')
@@ -81,3 +91,55 @@ def load_image_pixels(filename, shape):
     image /= 255.0                  # ^^^
 
     return image, width, height
+
+
+# pak alle bounding boxes boven die thresh(hold)
+def get_boxes(boxes, labels, thresh):
+	v_boxes, v_labels, v_scores = list(), list(), list()
+	# ga langs alle boxen heen
+	for box in boxes:
+		# ga langs alle labels heen (labels worden gemaakt in yolo script, zijn de dingen die je wilt herkennen)
+		for i in range(len(labels)):
+			
+			if box.classes[i] > thresh:     # kijk of die bounding box ook inderdaad over de threshhold heen komt
+				v_boxes.append(box)
+				v_labels.append(labels[i])
+				v_scores.append(box.classes[i]*100)
+
+	return v_boxes, v_labels, v_scores
+
+
+def randomize(min, max):
+    integerR = random.randint(min, max)
+    return integerR
+
+
+def draw_boxes(filename, v_boxes, v_labels, v_scores, obj_thresh):
+
+    image = cv2.imread(filename)
+
+    for i in range(len(v_boxes)):
+        box = v_boxes[i]
+
+        y1, x1, y2, x2 = box.ymin, box.xmin, box.ymax, box.xmax
+        width, height = x2 - x1, y2 - y1
+    
+        label = "%s %.2f" % (v_labels[i], (box.get_score() * 100))
+
+        colorR = randomize(150, 255)
+        colorG = randomize(150, 255)
+        colorB = randomize(150, 255)
+
+
+        cv2.rectangle(image, (box.xmin,box.ymin), (box.xmax,box.ymax), (0, colorG,colorB), 3)
+        cv2.putText(image, 
+            label, 
+            (box.xmin, box.ymin - 13), 
+            cv2.FONT_HERSHEY_SIMPLEX, 
+            0.002 * image.shape[0], 
+            (0,colorG,colorB), 2)
+
+        
+            
+        
+    return image

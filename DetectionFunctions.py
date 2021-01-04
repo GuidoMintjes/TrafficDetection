@@ -4,6 +4,9 @@
 
 # Dit zijn dus functies van YoloV3 zelf, gekopieerd hier naar toe
 
+import os
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
+
 import struct
 import numpy as np
 from tensorflow.keras.layers import Conv2D
@@ -14,7 +17,6 @@ from tensorflow.keras.layers import ZeroPadding2D
 from tensorflow.keras.layers import UpSampling2D
 from tensorflow.keras.layers import add, concatenate
 from tensorflow.keras.models import Model
-
 
 
 class BoundBox:
@@ -266,7 +268,7 @@ class WeightReader:
 
 		self.offset = 0
 
-def decode_netout(netout, anchors, obj_thresh, nms_thresh, net_h, net_w):
+def decode_netout(netout, anchors, obj_thresh, net_h, net_w):
     grid_h, grid_w = netout.shape[:2]
     nb_box = 3
     netout = netout.reshape((grid_h, grid_w, nb_box, -1))
@@ -307,3 +309,70 @@ def decode_netout(netout, anchors, obj_thresh, nms_thresh, net_h, net_w):
             boxes.append(box)
 
     return boxes
+
+
+def correct_yolo_boxes(boxes, image_h, image_w, net_h, net_w):
+    if (float(net_w)/image_w) < (float(net_h)/image_h):
+        new_w = net_w
+        new_h = (image_h*net_w)/image_w
+    else:
+        new_h = net_w
+        new_w = (image_w*net_h)/image_h
+        
+    for i in range(len(boxes)):
+        x_offset, x_scale = (net_w - new_w)/2./net_w, float(new_w)/net_w
+        y_offset, y_scale = (net_h - new_h)/2./net_h, float(new_h)/net_h
+        
+        boxes[i].xmin = int((boxes[i].xmin - x_offset) / x_scale * image_w)
+        boxes[i].xmax = int((boxes[i].xmax - x_offset) / x_scale * image_w)
+        boxes[i].ymin = int((boxes[i].ymin - y_offset) / y_scale * image_h)
+        boxes[i].ymax = int((boxes[i].ymax - y_offset) / y_scale * image_h)
+
+
+def _interval_overlap(interval_a, interval_b):
+    x1, x2 = interval_a
+    x3, x4 = interval_b
+
+    if x3 < x1:
+        if x4 < x1:
+            return 0
+        else:
+            return min(x2,x4) - x1
+    else:
+        if x2 < x3:
+             return 0
+        else:
+            return min(x2,x4) - x3          
+
+def bbox_iou(box1, box2):
+    intersect_w = _interval_overlap([box1.xmin, box1.xmax], [box2.xmin, box2.xmax])
+    intersect_h = _interval_overlap([box1.ymin, box1.ymax], [box2.ymin, box2.ymax])
+    
+    intersect = intersect_w * intersect_h
+
+    w1, h1 = box1.xmax-box1.xmin, box1.ymax-box1.ymin
+    w2, h2 = box2.xmax-box2.xmin, box2.ymax-box2.ymin
+    
+    union = w1*h1 + w2*h2 - intersect
+    
+    return float(intersect) / union
+
+def do_nms(boxes, nms_thresh):
+    if len(boxes) > 0:
+        nb_class = len(boxes[0].classes)
+    else:
+        return
+        
+    for c in range(nb_class):
+        sorted_indices = np.argsort([-box.classes[c] for box in boxes])
+
+        for i in range(len(sorted_indices)):
+            index_i = sorted_indices[i]
+
+            if boxes[index_i].classes[c] == 0: continue
+
+            for j in range(i+1, len(sorted_indices)):
+                index_j = sorted_indices[j]
+
+                if bbox_iou(boxes[index_i], boxes[index_j]) >= nms_thresh:
+                    boxes[index_j].classes[c] = 0
