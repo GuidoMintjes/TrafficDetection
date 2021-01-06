@@ -99,19 +99,22 @@ def __main__():
     videoDetectTest.downloadCheck()
     videoDetectTest.yoloModelCheck()
 
+    frameNo = 1
+    totalFrames = int(cv2.VideoCapture.get(video_capture, int(cv2.CAP_PROP_FRAME_COUNT)))
+
+    print(totalFrames)
+
     while(True):
 
         ret, frame = video_capture.read()
-
-        # imageRead, image_w, image_h, model, yhat, imageRead = getImageNStuff(frame, vidWidth, vidHeight, model)
-        # imageFinal = decodeFrame(imageRead, image_w, image_h, model, yhat, imageRead)
-
-        cv2.imwrite("videoframe.jpg", frame)
-
-        imageFinal = videoDetectTest.__main__("videoframe.jpg", model, frame)
+        
+        imageFinal = videoDetectTest.__main__(model, frame)
 
         cv2.imshow('Video', imageFinal)
         out.write(cv2.resize(imageFinal, (int(vidWidth), int(vidHeight))))
+
+        print("Frame " + str(frameNo) + " van de " + str(totalFrames) + " frames in de video is opgeslagen!")
+        frameNo += 1
 
         if cv2.waitKey(1) & 0xFF == ord('Q'):
             print("Gestopt!")

@@ -9,6 +9,7 @@ from matplotlib.patches import Rectangle
 import random
 
 from cv2 import cv2
+import numpy as np
 
 colorG = 255
 
@@ -95,7 +96,6 @@ def load_image_pixels(filename, shape):
 
 def load_image_pixels_video(image, width, height):
 
-    print(image.shape)
     heighte, widthe, colors = image.shape
 
 
@@ -158,7 +158,32 @@ def draw_boxes(filename, v_boxes, v_labels, v_scores, obj_thresh):
             0.002 * image.shape[0], 
             (0,colorG,colorB), 2)
 
-        
-            
-        
+    return image
+
+
+def draw_boxes_video(image, v_boxes, v_labels, v_scores, obj_thresh):
+
+    
+    for i in range(len(v_boxes)):
+        box = v_boxes[i]
+
+        y1, x1, y2, x2 = box.ymin, box.xmin, box.ymax, box.xmax
+        width, height = x2 - x1, y2 - y1
+    
+        label = "%s %.2f" % (v_labels[i], (box.get_score() * 100))
+
+        colorR = randomize(150, 255)
+        colorG = randomize(150, 255)
+        colorB = randomize(150, 255)
+
+
+        cv2.rectangle(image, (box.xmin,box.ymin), (box.xmax,box.ymax), (0, colorG,colorB), 3)
+        cv2.putText(image, 
+            label, 
+            (box.xmin, box.ymin - 13), 
+            cv2.FONT_HERSHEY_SIMPLEX, 
+            0.002 * image.shape[0], 
+            (0,colorG,colorB), 2)
+
+
     return image

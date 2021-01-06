@@ -197,6 +197,9 @@ def decodeFrame(image, image_w, image_h, model, yhat):
     
     imageFinal = f.draw_boxes(imageFile, v_boxes, v_labels, v_scores, 0.5)
     
+    print(imageFinal)
+
+
     cv2.imshow("window", imageFinal)
     cv2.waitKey(0)
     cv2.destroyAllWindows()

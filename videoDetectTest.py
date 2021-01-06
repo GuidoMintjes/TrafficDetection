@@ -21,6 +21,8 @@ import DetectionFunctions as dF
 from cv2 import cv2
 
 
+
+
 # Een paar standaard variabelen opstellen
 preTrainedURL = 'https://pjreddie.com/media/files/yolov3.weights'
 
@@ -56,32 +58,6 @@ def loadModel():
     return model
 
 
-
-# bool recursed, String initString
-def initProgramFirstCheck():
-    checked = False
-    initBool = False # Standaard nog niet geopend
-
-    while not checked:
-        # Vragen of het de eerste keer is van het programma en de checks ervoor snap je wel
-        initString = input("Is dit de eerste keer dat je het yolov3 programma opent? (Y/N) ")
-        f.br()
-
-        if initString == "Y":
-
-            initBool = True
-
-        elif initString == "N":
-            initBool = False
-                
-        else:
-            print("Verkeerde input, start opnieuw...")
-            f.br()
-            continue
-        
-        checked = True
-        
-    return initBool
 
 
 # Downloaden kan er wat lastig uit zien, gebruikt het functions.py script 
@@ -135,10 +111,10 @@ def yoloModelCheck():
 
 
 # De eigenlijk start functie dat wordt gebruikt na de init funcs/defs
-def getImageNStuff(imageFilee, model):
+def getImageNStuff(imagee, model):
 
 
-    image, image_w, image_h = f.load_image_pixels_video(imageFilee, input_w, input_h)
+    image, image_w, image_h = f.load_image_pixels_video(imagee, input_w, input_h)
 
 
     image = expand_dims(image, 0) 
@@ -150,7 +126,7 @@ def getImageNStuff(imageFilee, model):
     return image, image_w, image_h, model, yhat
 
 
-def decodeFrame(image, image_w, image_h, model, yhat, imageFile):
+def decodeFrame(image, image_w, image_h, model, yhat, frame):
     
     boxes = list()
     for i in range(len(yhat)):
@@ -168,17 +144,18 @@ def decodeFrame(image, image_w, image_h, model, yhat, imageFile):
 
 
     
-    imageFinal = f.draw_boxes(imageFile, v_boxes, v_labels, v_scores, 0.5)
-    
+    imageFinal = f.draw_boxes_video(frame, v_boxes, v_labels, v_scores, 0.5)
+
+
     return imageFinal
 
 
 
-def __main__(imageFile, model, image):
+def __main__(model, frame):
     
 
-    image, image_w, image_h, model, yhat = getImageNStuff(image, model)
+    image, image_w, image_h, model, yhat = getImageNStuff(frame, model)
 
-    imageFinal = decodeFrame(image, image_w, image_h, model, yhat, imageFile)
+    imageFinal = decodeFrame(image, image_w, image_h, model, yhat, frame)
 
     return imageFinal
