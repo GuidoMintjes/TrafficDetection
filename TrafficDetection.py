@@ -15,7 +15,7 @@ import skimage.io as io
 
 # Eigen python packages
 import YOLOv3
-import COCO
+import videoDetect
 
 # import TrafficDetection
 
@@ -24,7 +24,9 @@ f.br()
 
 
 def __main__():
-    print("Voordat de AI in gebruik kan worden genomen zal er automatisch een getraind model gedownload worden...")
+    print("Voordat de AI in gebruik kan worden genomen zal er automatisch een getraind model gedownload moeten worden...")
+    print("Om dit helemaal succesvol te doen, moet bij het eerste gebruik bij de volgende vraag het plaatje worden geselecteerd...")
+    print("Wanneer er wordt gevraagd om de bestandsnaam van een plaatje, kan het voorbeeldplaatje 'zebra.jpg' gebruikt worden...")
     f.br()
 
     answer = input('Wil je de AI op een (P)laatje testen, of op een (V)ideo? (P/V) ')
@@ -41,7 +43,7 @@ def __main__():
 
     elif answer == 'V':
 
-        print("Deze functie is momenteel in ontwikkeling...")
+        videoDetect.__main__()
         sys.exit()
 
 

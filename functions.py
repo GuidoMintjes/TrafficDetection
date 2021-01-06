@@ -93,6 +93,25 @@ def load_image_pixels(filename, shape):
     return image, width, height
 
 
+def load_image_pixels_video(image, width, height):
+
+    print(image.shape)
+    heighte, widthe, colors = image.shape
+
+
+    shape = (int(width), int(height))
+
+
+    image = cv2.resize(image, shape)
+    image = img_to_array(image) # Verander het plaatje in een numpy array
+
+
+    image = image.astype('float32') # Scale de waardes van het plaatje naar tussen de 0 en de 1
+    image /= 255.0                  # ^^^
+
+    return image, widthe, heighte
+
+
 # pak alle bounding boxes boven die thresh(hold)
 def get_boxes(boxes, labels, thresh):
 	v_boxes, v_labels, v_scores = list(), list(), list()

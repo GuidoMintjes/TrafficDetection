@@ -33,7 +33,7 @@ model = None
 propability = 0.6
 anchors = [[116,90, 156,198, 373,326], [30,61, 62,45, 59,119], [10,13, 16,30, 33,23]]
 
-imageFile = 'zebra.jpg'
+imageFile = "zebra.jpg"
 input_w, input_h = (416, 416)
 
 
@@ -129,7 +129,7 @@ def yoloModelCheck():
 
 
 # De eigenlijk start functie dat wordt gebruikt na de init funcs/defs
-def getImageNStuff():
+def getImageNStuff(imageFilee):
     
     f.br()
     f.br()
@@ -137,7 +137,10 @@ def getImageNStuff():
     # Load yolov3 model
     model = load_model(modelsFolder + '\\' + 'model.h5')
 
-    image, image_w, image_h = f.load_image_pixels(imageFile, (input_w, input_h))
+
+    image, image_w, image_h = f.load_image_pixels(imageFilee, (input_w, input_h))
+
+    
 
     # VVVVVV Niet nodig opzich
 
@@ -155,8 +158,7 @@ def getImageNStuff():
                                   # verwacht er vaak al meerdere tegelijk bij het model.predict stukje 
 
 
-
-#----------------------------------------------------------------------------------------#
+    print(image)
 
     # Maak de voorspelling met het model
     yhat = model.predict(image)
@@ -205,6 +207,8 @@ def decodeFrame(image, image_w, image_h, model, yhat):
 
 def __main__():
     
+    imageFile = input("Vul hier de bestandsnaam van de te detecteren foto in: ")
+
     downloadCheck()
     yoloModelCheck()
     
@@ -214,6 +218,6 @@ def __main__():
 
     f.br()
     print("Het (voorbeeld) plaatje (of de (voorbeeld) video) pakken en herkennen met het model!")
-    image, image_w, image_h, model, yhat = getImageNStuff()
+    image, image_w, image_h, model, yhat = getImageNStuff(imageFile)
 
     decodeFrame(image, image_w, image_h, model, yhat)
