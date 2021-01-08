@@ -82,8 +82,8 @@ def __main__():
 
     model = videoDetectTest.loadModel()
 
-
-    video_capture = cv2.VideoCapture(input("Vul hier de bestandsnaam van de te detecteren video in (zorg dat ie in dezelfde map zit!): "))
+    videoFile = input("Vul hier de bestandsnaam van de te detecteren video in (zorg dat ie in dezelfde map zit!): ")
+    video_capture = cv2.VideoCapture(videoFile)
 
     fourcc = cv2.VideoWriter_fourcc('X', 'V', 'I', 'D')
     vidWidth = video_capture.get(3)
@@ -91,7 +91,7 @@ def __main__():
     fps = video_capture.get(5)
     print(vidWidth, vidHeight, fps)
 
-    out = cv2.VideoWriter(imageFile[:-4] + '_detected' + imageFile[-4:],
+    out = cv2.VideoWriter(videoFile[:-4] + '_detected' + videoFile[-4:],
                         fourcc,
                         fps,
                         (int(vidWidth), int(vidHeight)))
