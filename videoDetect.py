@@ -83,6 +83,10 @@ def __main__():
     model = videoDetectTest.loadModel()
 
     videoFile = input("Vul hier de bestandsnaam van de te detecteren video in (zorg dat ie in dezelfde map zit!): ")
+    
+    if(videoFile == '0'):
+        videoFile = 0
+    
     video_capture = cv2.VideoCapture(videoFile)
 
     fourcc = cv2.VideoWriter_fourcc('X', 'V', 'I', 'D')
@@ -111,6 +115,8 @@ def __main__():
 
         ret, frame = video_capture.read()
         
+        print(frame)
+
         imageFinal = videoDetectTest.__main__(model, frame)
 
         cv2.imshow('Video', imageFinal)
