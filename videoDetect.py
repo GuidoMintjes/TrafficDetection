@@ -82,8 +82,12 @@ def __main__():
 
     model = videoDetectTest.loadModel()
 
-
-    video_capture = cv2.VideoCapture(input("Vul hier de bestandsnaam van de te detecteren video in (zorg dat ie in dezelfde map zit!): "))
+    videoFile = input("Vul hier de bestandsnaam van de te detecteren video in (zorg dat ie in dezelfde map zit!): ")
+    
+    if(videoFile == '0'):
+        videoFile = 0
+    
+    video_capture = cv2.VideoCapture(videoFile)
 
     fourcc = cv2.VideoWriter_fourcc('X', 'V', 'I', 'D')
     vidWidth = video_capture.get(3)
@@ -91,29 +95,36 @@ def __main__():
     fps = video_capture.get(5)
     print(vidWidth, vidHeight, fps)
 
-    out = cv2.VideoWriter("videoDetect.avi",
-                        fourcc,
-                        fps,
-                        (int(vidWidth), int(vidHeight)))
+    if(videoFile != 0):
+        out = cv2.VideoWriter(videoFile[:-4] + '_detected' + videoFile[-4:],
+                            fourcc,
+                            fps,
+                            (int(vidWidth), int(vidHeight)))
 
     videoDetectTest.downloadCheck()
     videoDetectTest.yoloModelCheck()
 
     frameNo = 1
-    totalFrames = int(cv2.VideoCapture.get(video_capture, int(cv2.CAP_PROP_FRAME_COUNT)))
+    
+    if(videoFile != 0):
+        totalFrames = int(cv2.VideoCapture.get(video_capture, int(cv2.CAP_PROP_FRAME_COUNT)))
 
-    print(totalFrames)
+        print(totalFrames)
 
     while(True):
 
         ret, frame = video_capture.read()
         
+        print(frame)
+
         imageFinal = videoDetectTest.__main__(model, frame)
 
         cv2.imshow('Video', imageFinal)
-        out.write(cv2.resize(imageFinal, (int(vidWidth), int(vidHeight))))
+        
+        if(videoFile != 0):
+            out.write(cv2.resize(imageFinal, (int(vidWidth), int(vidHeight))))
 
-        print("Frame " + str(frameNo) + " van de " + str(totalFrames) + " frames in de video is opgeslagen!")
+            print("Frame " + str(frameNo) + " van de " + str(totalFrames) + " frames in de video is opgeslagen!")
         frameNo += 1
 
         if cv2.waitKey(1) & 0xFF == ord('Q'):

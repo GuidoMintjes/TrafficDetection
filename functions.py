@@ -145,12 +145,17 @@ def draw_boxes(filename, v_boxes, v_labels, v_scores, obj_thresh):
     
         label = "%s %.2f" % (v_labels[i], (box.get_score() * 100))
 
+<<<<<<< HEAD
         colorR = 255 - (255 * box.get_score())
         colorG = 255 * box.get_score()
         colorB = randomize(150, 180)
+=======
+        colorR = 255 - (255*box.get_score())
+        colorG = 255*box.get_score()
+>>>>>>> abdccf3617f83ac1c03f97fc1d0088bb13223955
 
 
-        cv2.rectangle(image, (box.xmin,box.ymin), (box.xmax,box.ymax), (0, colorG,colorB), 3)
+        cv2.rectangle(image, (box.xmin,box.ymin), (box.xmax,box.ymax), (colorR, colorG,0), 3)
         cv2.putText(image, 
             label, 
             (box.xmin, box.ymin - 13), 
@@ -172,18 +177,17 @@ def draw_boxes_video(image, v_boxes, v_labels, v_scores, obj_thresh):
     
         label = "%s %.2f" % (v_labels[i], (box.get_score() * 100))
 
-        colorR = randomize(150, 255)
-        colorG = randomize(150, 255)
-        colorB = randomize(150, 255)
+        colorR = 255 - (255*box.get_score())
+        colorG = 255*box.get_score()
 
 
-        cv2.rectangle(image, (box.xmin,box.ymin), (box.xmax,box.ymax), (0, colorG,colorB), 3)
+        cv2.rectangle(image, (box.xmin,box.ymin), (box.xmax,box.ymax), (colorR, colorG, 0), 3)
         cv2.putText(image, 
             label, 
             (box.xmin, box.ymin - 13), 
             cv2.FONT_HERSHEY_SIMPLEX, 
             0.002 * image.shape[0], 
-            (0,colorG,colorB), 2)
+            (colorR,colorG,0), 2)
 
 
     return image
