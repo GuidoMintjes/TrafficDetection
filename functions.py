@@ -145,12 +145,11 @@ def draw_boxes(filename, v_boxes, v_labels, v_scores, obj_thresh):
     
         label = "%s %.2f" % (v_labels[i], (box.get_score() * 100))
 
-        colorR = randomize(150, 255)
-        colorG = randomize(150, 255)
-        colorB = randomize(150, 255)
+        colorR = 255 - (255*box.get_score())
+        colorG = 255*box.get_score()
 
 
-        cv2.rectangle(image, (box.xmin,box.ymin), (box.xmax,box.ymax), (0, colorG,colorB), 3)
+        cv2.rectangle(image, (box.xmin,box.ymin), (box.xmax,box.ymax), (colorR, colorG,0), 3)
         cv2.putText(image, 
             label, 
             (box.xmin, box.ymin - 13), 
@@ -172,12 +171,11 @@ def draw_boxes_video(image, v_boxes, v_labels, v_scores, obj_thresh):
     
         label = "%s %.2f" % (v_labels[i], (box.get_score() * 100))
 
-        colorR = randomize(150, 255)
-        colorG = randomize(150, 255)
-        colorB = randomize(150, 255)
+        colorR = 255 - (255*box.get_score())
+        colorG = 255*box.get_score()
 
 
-        cv2.rectangle(image, (box.xmin,box.ymin), (box.xmax,box.ymax), (0, colorG,colorB), 3)
+        cv2.rectangle(image, (box.xmin,box.ymin), (box.xmax,box.ymax), (colorR, colorG, 0), 3)
         cv2.putText(image, 
             label, 
             (box.xmin, box.ymin - 13), 

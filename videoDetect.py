@@ -91,7 +91,7 @@ def __main__():
     fps = video_capture.get(5)
     print(vidWidth, vidHeight, fps)
 
-    out = cv2.VideoWriter("videoDetect.avi",
+    out = cv2.VideoWriter(imageFile[:-4] + '_detected' + imageFile[-4:],
                         fourcc,
                         fps,
                         (int(vidWidth), int(vidHeight)))
