@@ -181,7 +181,7 @@ def draw_boxes_video(image, v_boxes, v_labels, v_scores, obj_thresh):
             (box.xmin, box.ymin - 13), 
             cv2.FONT_HERSHEY_SIMPLEX, 
             0.002 * image.shape[0], 
-            (0,colorG,colorB), 2)
+            (colorR,colorG,0), 2)
 
 
     return image
