@@ -95,7 +95,7 @@ def __main__():
     fps = video_capture.get(5)
     print(vidWidth, vidHeight, fps)
 
-    if(videoFile != '0'):
+    if(videoFile != 0):
         out = cv2.VideoWriter(videoFile[:-4] + '_detected' + videoFile[-4:],
                             fourcc,
                             fps,
@@ -106,7 +106,7 @@ def __main__():
 
     frameNo = 1
     
-    if(videoFile != '0'):
+    if(videoFile != 0):
         totalFrames = int(cv2.VideoCapture.get(video_capture, int(cv2.CAP_PROP_FRAME_COUNT)))
 
         print(totalFrames)
@@ -121,7 +121,7 @@ def __main__():
 
         cv2.imshow('Video', imageFinal)
         
-        if(videoFile != '0'):
+        if(videoFile != 0):
             out.write(cv2.resize(imageFinal, (int(vidWidth), int(vidHeight))))
 
             print("Frame " + str(frameNo) + " van de " + str(totalFrames) + " frames in de video is opgeslagen!")
