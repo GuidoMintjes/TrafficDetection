@@ -168,7 +168,7 @@ def getImageNStuff(imageFilee):
     return image, image_w, image_h, model, yhat
 
 
-def decodeFrame(image, image_w, image_h, model, yhat):
+def decodeFrame(image, image_w, image_h, model, yhat, imageFile):
     
     boxes = list()
     for i in range(len(yhat)):
@@ -210,7 +210,7 @@ def decodeFrame(image, image_w, image_h, model, yhat):
 
 def __main__():
     
-    imageFile = input("Vul hier de bestandsnaam van de te detecteren foto in: ")
+    imageFilee = input("Vul hier de bestandsnaam van de te detecteren foto in: ")
 
     downloadCheck()
     yoloModelCheck()
@@ -221,6 +221,6 @@ def __main__():
 
     f.br()
     print("Het (voorbeeld) plaatje (of de (voorbeeld) video) pakken en herkennen met het model!")
-    image, image_w, image_h, model, yhat = getImageNStuff(imageFile)
+    image, image_w, image_h, model, yhat = getImageNStuff(imageFilee)
 
-    decodeFrame(image, image_w, image_h, model, yhat)
+    decodeFrame(image, image_w, image_h, model, yhat, imageFilee)
