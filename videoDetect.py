@@ -114,8 +114,6 @@ def __main__():
     while(True):
 
         ret, frame = video_capture.read()
-        
-        print(frame)
 
         imageFinal = videoDetectTest.__main__(model, frame)
 

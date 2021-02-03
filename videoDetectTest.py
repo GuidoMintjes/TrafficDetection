@@ -38,6 +38,8 @@ anchors = [[116,90, 156,198, 373,326], [30,61, 62,45, 59,119], [10,13, 16,30, 33
 imageFile = "zebra.jpg"
 input_w, input_h = (416, 416)
 
+tolerance = 0.5
+
 
 # dit zijn alle dingen die we willen herkennen, kijk op cocodataset.org om te zien welke er allemaal zijn
 labels = ["person", "bicycle", "car", "motorbike", "aeroplane", "bus", "train", "truck",
@@ -136,7 +138,7 @@ def decodeFrame(image, image_w, image_h, model, yhat, frame):
     # Zet de shape en size van de boxes weer om naar het originele plaatje ipv het 416x416  plaatje
     dF.correct_yolo_boxes(boxes, image_h, image_w, input_h, input_w)
 
-    dF.do_nms(boxes, 0.5) # zorg ervoor dat overlappende bounding boxes weg gehaald worden( 0.5 staat voor bounding boxes die 50% over een komen)
+    dF.do_nms(boxes, tolerance) # zorg ervoor dat overlappende bounding boxes weg gehaald worden( 0.5 staat voor bounding boxes die 50% over een komen)
 
     v_boxes, v_labels, v_scores = f.get_boxes(boxes, labels, propability)
 
@@ -144,7 +146,7 @@ def decodeFrame(image, image_w, image_h, model, yhat, frame):
 
 
     
-    imageFinal = f.draw_boxes_video(frame, v_boxes, v_labels, v_scores, 0.5)
+    imageFinal = f.draw_boxes_video(frame, v_boxes, v_labels, v_scores, tolerance)
 
 
     return imageFinal
