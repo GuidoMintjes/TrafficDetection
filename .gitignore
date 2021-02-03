@@ -8,7 +8,12 @@ model.h5
 tests/
 zebra.mp4
 videoDetect.avi
+<<<<<<< HEAD
 Vids/*
 vids/*
 pics/*
 Pic/*
+=======
+Vids/
+vids/
+>>>>>>> 6be0e44f58f95ac16c5635c71552753ed06090ef

@@ -144,9 +144,15 @@ def draw_boxes(filename, v_boxes, v_labels, v_scores, obj_thresh):
     
         label = "%s %.2f" % (v_labels[i], (box.get_score() * 100))
 
+<<<<<<< HEAD
         colorR = int(round(383 - (255 * box.get_score())))
         colorG = int(round((128 * box.get_score()) + (255 * (box.get_score() - 0.5))))
         colorB = 0 # randomize(0, 20)
+=======
+        colorR = 255 - (255 * box.get_score())
+        colorG = 255 * box.get_score()
+        colorB = randomize(150, 180)
+>>>>>>> 6be0e44f58f95ac16c5635c71552753ed06090ef
 
         cv2.rectangle(image, (box.xmin,box.ymin), (box.xmax,box.ymax), (colorB, colorG, colorR), 3)
         cv2.putText(image, 
